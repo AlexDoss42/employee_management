@@ -18,7 +18,7 @@ CREATE TABLE team(
 );
 
 CREATE TABLE employee_assignment(
-	id integer NOT NULL DEFAULT nextval('employee_assignment'),
+	id integer NOT NULL DEFAULT nextval('employee_assignment_seq'),
 	employee_id integer NOT NULL,
 	team_id integer NOT NULL,
 	constraint employee_assignment_cons PRIMARY KEY(id),

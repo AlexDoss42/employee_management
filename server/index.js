@@ -26,6 +26,17 @@ app.post("/team", async (req, res) => {
     }
 });
 
+app.post("/employeeassignment", async (req, res) => {
+    try {
+        const { employee_id, team_id } = req.body;
+        const employeeAssignmentData = await pool.query("INSERT INTO EMPLOYEE_ASSIGNMENT(employee_id, team_id) VALUES($1, $2) RETURNING *", [employee_id, team_id]);
+        res.json(employeeAssignmentData.rows[0]);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json(error);
+    }
+});
+
 
 app.listen(3000, () => {
     console.log(`ITS WORKING!!!! IIITTTSSS WORKING!!!!!! on port 3000`);
