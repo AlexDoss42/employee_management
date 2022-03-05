@@ -7,9 +7,10 @@ app.use(express.json());
 app.post("/employee", async (req, res) => {
     try {
         const { name, date_of_joining, designation, gender, email, bio } = req.body;
-        const employeeData = await pool.query("INSERT INTO EMPLOYEE(name, date_of_joining, designation, gender, email, bio) VALUE($1, $2, $3, $4, $5, $6)", [name, date_of_joining, designation, gender, email, bio]);
-        res.json(req.body);
+        const employeeData = await pool.query("INSERT INTO EMPLOYEE(name, date_of_joining, designation, gender, email, bio) VALUES($1, $2, $3, $4, $5, $6) RETURNING *", [name, date_of_joining, designation, gender, email, bio]);
+        res.json(employeeData.rows[0]);
     } catch (error) {
+        console.error(error.message);
         res.status(500).json(error);
     }
 });
