@@ -37,6 +37,26 @@ app.post("/employeeassignment", async (req, res) => {
     }
 });
 
+app.get('/employees', async (req, res) => {
+    try {
+        const employeeData = await pool.query("SELECT * FROM EMPLOYEE");
+        res.json(employeeData.rows);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json(error);
+    }
+});
+
+app.get('/teams', async (req, res) => {
+    try {
+        const teamData = await pool.query("SELECT * FROM TEAM");
+        res.json(teamData.rows);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json(error);
+    }
+});
+
 
 app.listen(3000, () => {
     console.log(`ITS WORKING!!!! IIITTTSSS WORKING!!!!!! on port 3000`);
