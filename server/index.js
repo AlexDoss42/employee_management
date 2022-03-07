@@ -111,6 +111,18 @@ app.put('/employee/:id', async (req, res) => {
     }
 });
 
+app.put('/team/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, email, description } = req.body;
+        const teamData = await pool.query("UPDATE TEAM SET name=$1, email=$2, description=$3 WHERE id=$4 RETURNING *", [name, email, description, id]);
+        res.json(teamData.rows[0]);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json(error);
+    }
+});
+
 
 app.listen(3000, () => {
     console.log(`ITS WORKING!!!! IIITTTSSS WORKING!!!!!! on port 3000`);
