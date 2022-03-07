@@ -78,6 +78,27 @@ app.get('/employee/:id', async (req, res) => {
     }
 });
 
+app.get('/team/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        let data = {};
+        const teamData = await pool.query("SELECT * FROM TEAM WHERE id = $1", [id]);
+        const employees = await pool.query("SELECT * FROM EMPLOYEE WHERE ID IN (SELECT employee_id from EMPLOYEE_ASSIGNMENT WHERE TEAM_ID=$1)", [id])
+        data=teamData.rows[0];
+        if(data) {
+            data.employees=employees.rows
+        } else {
+            data={
+                info:"No team data for this id"
+            }
+        }
+        res.json(data);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json(error);
+    }
+});
+
 
 app.listen(3000, () => {
     console.log(`ITS WORKING!!!! IIITTTSSS WORKING!!!!!! on port 3000`);
