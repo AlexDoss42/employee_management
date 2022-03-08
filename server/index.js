@@ -1,11 +1,16 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const { createEmployee, createTeam, createEmployeeAssignment } = require('./create');
 const { getAllEmployees, getEmployeeById, getAllTeams, getTeamById } = require('./read');
 const { updateEmployee, updateTeam } = require('./update');
 const { deleteEmployee, deleteTeam, deleteEmployeeAssignment } = require('./delete');
 
-
+var corsOptions = {
+    origin:'http://example.com',
+    optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.post("/employee", createEmployee);
