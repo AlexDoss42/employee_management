@@ -1,41 +1,15 @@
 const express = require('express');
 const app = express();
-const pool = require('./db');
+const { createEmployee, createTeam, createEmployeeAssignment } = require('./create');
+
 
 app.use(express.json());
 
-app.post("/employee", async (req, res) => {
-    try {
-        const { name, date_of_joining, designation, gender, email, bio } = req.body;
-        const employeeData = await pool.query("INSERT INTO EMPLOYEE(name, date_of_joining, designation, gender, email, bio) VALUES($1, $2, $3, $4, $5, $6) RETURNING *", [name, date_of_joining, designation, gender, email, bio]);
-        res.json(employeeData.rows[0]);
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json(error);
-    }
-});
+app.post("/employee", createEmployee);
 
-app.post("/team", async (req, res) => {
-    try {
-        const { name, email, description } = req.body;
-        const teamData = await pool.query("INSERT INTO TEAM(name, email, description) VALUES($1, $2, $3) RETURNING *", [name, email, description]);
-        res.json(teamData.rows[0]);
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json(error);
-    }
-});
+app.post("/team", createTeam);
 
-app.post("/employeeassignment", async (req, res) => {
-    try {
-        const { employee_id, team_id } = req.body;
-        const employeeAssignmentData = await pool.query("INSERT INTO EMPLOYEE_ASSIGNMENT(employee_id, team_id) VALUES($1, $2) RETURNING *", [employee_id, team_id]);
-        res.json(employeeAssignmentData.rows[0]);
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json(error);
-    }
-});
+app.post("/employeeassignment", createEmployeeAssignment);
 
 app.get('/employees', async (req, res) => {
     try {
