@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUI = require('swagger-ui-express');
 const { createEmployee, createTeam, createEmployeeAssignment } = require('./create');
 const { getAllEmployees, getEmployeeById, getAllTeams, getTeamById } = require('./read');
 const { updateEmployee, updateTeam } = require('./update');
